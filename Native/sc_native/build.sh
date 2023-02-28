@@ -1,0 +1,1 @@
+cargo build --release && (cd copy_files/ && cargo run --release)
