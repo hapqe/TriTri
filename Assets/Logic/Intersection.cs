@@ -9,21 +9,22 @@ public class Intersection : MonoBehaviour
     public MeshFilter b;
     void Update()
     {
-        var line = Native.Intersection.Intersect(new Native.Intersection.Triangle(a), new Native.Intersection.Triangle(b));
+        var line = Sc.Native.Triangles.Triangle.Intersect(new Sc.Native.Triangles.Triangle(a), new Sc.Native.Triangles.Triangle(b));
         Debug.DrawLine(line.start, line.end, Color.red);
     }
 }
 
-public static class Native
+namespace Sc.Native
 {
-    public static class Intersection
+    public struct Line
     {
-        public struct Line
-        {
-            public Vector3 start;
-            public Vector3 end;
-        }
+        public Vector3 start;
+        public Vector3 end;
+    }
 
+    public static class Triangles
+    {
+        
         public struct Triangle
         {
             public Vector3 a;
@@ -46,9 +47,9 @@ public static class Native
                 b = filter.transform.TransformPoint(vertices[triangles[1]]);
                 c = filter.transform.TransformPoint(vertices[triangles[2]]);
             }
-        }
 
-        [DllImport(Sc.Native.Version.version, EntryPoint = "intersect")]
-        public extern static Line Intersect(Triangle a, Triangle b);
+            [DllImport(Sc.Native.Version.version, EntryPoint = "intersect")]
+            public extern static Line Intersect(Triangle a, Triangle b);
+        }
     }
 }
